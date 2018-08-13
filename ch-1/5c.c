@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* Convert all tabs to four spaces */
 
 int main() {
     long c;

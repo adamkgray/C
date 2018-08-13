@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* fahr/celsius as a for loop */
 
 int main() {
     int fahr;

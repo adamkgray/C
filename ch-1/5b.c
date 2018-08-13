@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* Convert all series of blank spaces greater than 1 to 1 */
 
 int main() {
     int currentChar, previousChar;

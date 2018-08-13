@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* Count blanks, tabs, newlines in a file */
 
 int main() {
     long blanks, tabs, newlines;

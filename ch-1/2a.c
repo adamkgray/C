@@ -1,4 +1,5 @@
 #include <stdio.h>
+/* print fahr to celcius, ce;sius to fahr */
 
 int main() {
     float fahr, celsius;
