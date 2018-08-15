@@ -1,6 +1,6 @@
+/* Print out frequency of different character in input */
 #include <stdio.h>
 #define ANSII 218
-/* Print out frequency of different character in input */
 
 int main() {
     int c, i;

@@ -1,8 +1,7 @@
+/* Print each "word" of file on a seperate line */
 #include <stdio.h>
 #define IN 1
 #define OUT 0
-
-/* Print each "word" of file on a seperate line */
 
 int main() {
     int c, state;

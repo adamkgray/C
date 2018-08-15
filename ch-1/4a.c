@@ -1,5 +1,5 @@
-#include <stdio.h>
 /* Basic copy program */
+#include <stdio.h>
 
 int main() {
     int c;

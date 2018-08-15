@@ -1,8 +1,8 @@
+/* Print histogram of word length in program input */
 #include <stdio.h>
 #define IN 1
 #define OUT 0
 #define MAX_WORD_LENGTH 30
-/* Print histogram of word length in program input */
 
 int main() {
     int c, state, counter;
