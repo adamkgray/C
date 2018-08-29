@@ -30,10 +30,15 @@ int sp = 0;         /* Current Stack index */
 /* Handle buffer */
 int getch(void);
 int ungetch(int);
+int getch2(void);   /* Assuming only one character of pushback */
+int ungetch2(char); /* Assuming only one character of pushback */
 int ungets(char s[]);
 
 char buf[BUFSIZE];  /* Buffer */
 int bufp = 0;       /* Current buffer index */
+char buf2 = '\0';   /* Buffer that can only hold one character of pushback */
+int bufUsed = 0;    /* Switch to indicate whether or not single-character buffer is in use */
+
 
 /* Handle variables */
 double variables[25];
@@ -278,6 +283,27 @@ int ungetch(int c) {
         return 0;
     } else {
         buf[bufp++] = c;
+        return 1;
+    }
+}
+
+/* Get a character from single-character buffer */
+int getch2(void) {
+    if (bufUsed) {
+        bufUsed = 0;
+        return buf2;
+    } else {
+        return getchar();
+    }
+}
+
+/* Put a character back onto the single-character buffer */
+int ungetch2(char c) {
+    if (bufUsed) {
+        return 0;
+    } else {
+        buf2 = c;
+        bufUsed = 1;
         return 1;
     }
 }
