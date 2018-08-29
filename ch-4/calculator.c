@@ -84,7 +84,7 @@ double pop(void) {
     if (sp > 0) {
         return val[--sp];
     } else {
-        printf("error: stack empty");
+        printf("error: stack empty\n");
         return 0.0;
     }
 }
@@ -98,20 +98,28 @@ void ungetch(int);
 int getop(char s[]) {
     int i, c;
 
-    /* Read through whitespace */
+    /* Read through white space until operator or operand */
     while ((s[0] = c = getch()) == ' ' || c == '\t')
-        ;
-    s[1] = '\0';
+        ; /* do nothing */
+
+    s[1] = '\0'; /* At this point, s looks like [<operator/operand>, '\0'] */
 
     /* Return any character that is not a number, negative sign or decimal point */
-    if (!isdigit(c) && c != '.') {
+    if (!isdigit(c) && c != '.' && c != '-') {
         return c;
     }
 
     i = 0;
+
     /* collect integer part */
-    if (isdigit(c)) {
+    if (isdigit(c) || c == '-') {
         while (isdigit(s[++i] = c = getch()))
+            /* If this is supposed to be a subtraction sign,
+             * then this while loop will incorrectly append
+             * a newline or whitespace character to the string s.
+             * But this is okay because we check for that later,
+             * and will put the whitepsace/newline back into the buffer.
+             */
             ;
     }
 
@@ -121,7 +129,17 @@ int getop(char s[]) {
             ;
     }
 
-    s[i] = '\0';
+    if (s[0] == '-' && !isdigit(s[1])) {
+        /* if a non-digit was added to the string in the collect integer part,
+         * this is supposed to be a suctraction operand. So we put the charcter
+         * back into the buffer and just return the subtracion sign as we would
+         * any other operand.
+         */
+        ungetch(c);
+        return '-';
+    } else {
+        s[i] = '\0';
+    }
 
     if (c != EOF) {
         ungetch(c);
