@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <math.h>
+#include <string.h>
 
 #define MAXOP 100
 #define MAXVAL 100
@@ -28,7 +29,8 @@ int sp = 0;         /* Current Stack index */
 
 /* Handle buffer */
 int getch(void);
-void ungetch(int);
+int ungetch(int);
+int ungets(char s[]);
 
 char buf[BUFSIZE];  /* Buffer */
 int bufp = 0;       /* Current buffer index */
@@ -38,7 +40,7 @@ double variables[25];
 
 /* Reverse Polish Calculator */
 int main() {
-    int i, type, index;
+    int i, type;
     double op1, op2;
     char s[MAXOP];
 
@@ -56,8 +58,7 @@ int main() {
                 push(s[0]);
                 break;
             case '$': /* Push a variable's value onto stack */
-                op1 = variables[s[0] - 'a'];
-                push(op1);
+                push(variables[s[0] - 'a']);
                 break;
             case '+': /* Addition */
                 push(pop() + pop());
@@ -67,23 +68,20 @@ int main() {
                 break;
             case '-': /* Subtraction */
                 op2 = pop();
-                op1 = pop();
-                push(op1 - op2);
+                push(pop() - op2);
                 break;
             case '/': /* Division */
                 op2 = pop();
-                op1 = pop();
                 if (op2 != 0.0) {
-                    push(op1 / op2);
+                    push(pop() / op2);
                 } else {
                     printf("\tERROR: zero divisor\n");
                 }
                 break;
             case '%': /* Modulo */
                 op2 = pop();
-                op1 = pop();
                 if (op2 != 0.0) {
-                    push((int)op1 % (int)op2);
+                    push((int)pop() % (int)op2);
                 } else {
                     printf("\tERROR: zero divisor\n");
                 }
@@ -108,15 +106,13 @@ int main() {
                 break;
             case 'P': /* Power */
                 op2 = pop();
-                op1 = pop();
-                push(pow(op1, op2));
+                push(pow(pop(), op2));
                 break;
             case '=': /* Assignment */
                 op2 = pop(); /* variable */
                 op1 = pop(); /* value */
-                index = (int)op2 - 'a'; /* set index value of variable name */
-                variables[index] = op1; /* set value in variable */
-                push(op1);
+                variables[(int)op2 - 'a'] = op1; /* set value in variable */
+                push(op1); /* Push it onto the stack for immediate use */
                 break;
             case '\n': /* End statement, pop & print top value of stack */
                 printf("\tReturn: %0.8g\n", pop());
@@ -127,76 +123,6 @@ int main() {
         }
     }
     return 0;
-}
-
-
-
-/* push a value onto the stack */
-void push(double f) {
-    if (sp < MAXVAL) {
-        val[sp] = f;
-        ++sp;
-    } else {
-        printf("\tERROR: Stack full, can't push %g\n", f);
-    }
-}
-
-/* Pop a value from the stack */
-double pop(void) {
-    if (sp > 0) {
-        --sp;
-        double poppedValue = val[sp];
-        val[sp] = '\0';
-        return poppedValue;
-    } else {
-        printf("\tStack empty\n");
-        return '\0';
-    }
-}
-
-/* Check if stack is NOT empty at index i */
-int stackNotemptyAt(int i) {
-    return (val[i] != '\0') ? 1 : 0;
-}
-
-void topElement(void) {
-    double topElementOfStack = val[sp - 1];
-    if (topElementOfStack == '\0') {
-        printf("\tTop element of stack: null\n");
-    } else {
-        printf("\tTop element of stack: %.8g\n", topElementOfStack);
-    }
-}
-
-void duplicateTopElement(void) {
-    if (stackNotemptyAt(0)) { /* At least one elem in the stack */
-        val[sp] = val[sp - 1];
-        printf("\tDuplicated %.8g\n", val[sp]);
-        ++sp;
-    } else {
-        printf("\tERROR: failed to duplicate\n");
-    }
-}
-
-void swapTopTwoElements(void) {
-    if (stackNotemptyAt(1)) { /* At least to elems in the stack */
-        int a = val[sp - 1];
-        int b = val[sp - 2];
-        val[sp - 2] = a;
-        val[sp - 1] = b;
-        printf("\tSwapped top two elements of stack\n");
-    } else {
-        printf("\tERROR: failed to swap\n");
-    }
-}
-
-void clearStack(void) {
-    int i;
-    for (i = 0; i < MAXVAL; ++i) {
-        val[i] = '\0';
-    }
-    sp = 0;
-    printf("\tStack cleared\n");
 }
 
 /* Get next operator or numeric operand */
@@ -273,6 +199,72 @@ int getop(char s[]) {
     return NUMBER;
 }
 
+/* push a value onto the stack */
+void push(double f) {
+    if (sp < MAXVAL) {
+        val[sp++] = f;
+    } else {
+        printf("\tERROR: Stack full, can't push %g\n", f);
+    }
+}
+
+/* Pop a value from the stack */
+double pop(void) {
+    if (sp > 0) {
+        --sp;
+        double poppedValue = val[sp];
+        val[sp] = '\0';
+        return poppedValue;
+    } else {
+        printf("\tStack empty\n");
+        return '\0';
+    }
+}
+
+/* Check if stack is NOT empty at index i */
+int stackNotemptyAt(int i) {
+    return (val[i] != '\0') ? 1 : 0;
+}
+
+void topElement(void) {
+    double topElementOfStack = val[sp - 1];
+    if (topElementOfStack == '\0') {
+        printf("\tTop element of stack: null\n");
+    } else {
+        printf("\tTop element of stack: %.8g\n", topElementOfStack);
+    }
+}
+
+void duplicateTopElement(void) {
+    if (stackNotemptyAt(0)) { /* At least one elem in the stack */
+        val[sp] = val[sp - 1];
+        printf("\tDuplicated %.8g\n", val[sp]);
+        ++sp;
+    } else {
+        printf("\tERROR: failed to duplicate\n");
+    }
+}
+
+void swapTopTwoElements(void) {
+    if (stackNotemptyAt(1)) { /* At least to elems in the stack */
+        int a = val[sp - 1];
+        int b = val[sp - 2];
+        val[sp - 2] = a;
+        val[sp - 1] = b;
+        printf("\tSwapped top two elements of stack\n");
+    } else {
+        printf("\tERROR: failed to swap\n");
+    }
+}
+
+void clearStack(void) {
+    int i;
+    for (i = 0; i < MAXVAL; ++i) {
+        val[i] = '\0';
+    }
+    sp = 0;
+    printf("\tStack cleared\n");
+}
 
 /* Get a (possibly pushed back) character */
 int getch(void) {
@@ -280,10 +272,20 @@ int getch(void) {
 }
 
 /* push a character back on input */
-void ungetch(int c) {
+int ungetch(int c) {
     if (bufp >= BUFSIZE) {
         printf("\tungetch: too many characters\n");
+        return 0;
     } else {
         buf[bufp++] = c;
+        return 1;
     }
+}
+
+int ungets(char s[]) {
+    int i = strlen(s) - 1;
+    while(i >= 0 && ungetch(s[i--]))
+        ;
+    s[++i] = '\0';
+    return i;
 }
