@@ -8,6 +8,7 @@
 #define MAXOP 100
 #define MAXVAL 100
 #define NUMBER '0'
+#define VARIABLE 'a'
 #define BUFSIZE 100
 
 /* Read input */
@@ -32,14 +33,16 @@ void ungetch(int);
 char buf[BUFSIZE];  /* Buffer */
 int bufp = 0;       /* Current buffer index */
 
+/* Handle variables */
+double variables[25];
+
 /* Reverse Polish Calculator */
 int main() {
-    int type;
-    double op1, op2, poppedValue;
+    int i, type, index;
+    double op1, op2;
     char s[MAXOP];
 
     /* Initialize Stack with null values */
-    int i;
     for (i = 0; i < MAXVAL; ++i) {
         val[i] = '\0';
     }
@@ -48,6 +51,13 @@ int main() {
         switch (type) {
             case NUMBER: /* Push number onto stack */
                 push(atof(s));
+                break;
+            case VARIABLE: /* Push a variable name onto stack */
+                push(s[0]);
+                break;
+            case '$': /* Push a variable's value onto stack */
+                op1 = variables[s[0] - 'a'];
+                push(op1);
                 break;
             case '+': /* Addition */
                 push(pop() + pop());
@@ -101,6 +111,13 @@ int main() {
                 op1 = pop();
                 push(pow(op1, op2));
                 break;
+            case '=': /* Assignment */
+                op2 = pop(); /* variable */
+                op1 = pop(); /* value */
+                index = (int)op2 - 'a'; /* set index value of variable name */
+                variables[index] = op1; /* set value in variable */
+                push(op1);
+                break;
             case '\n': /* End statement, pop & print top value of stack */
                 printf("\tReturn: %0.8g\n", pop());
                 break;
@@ -114,7 +131,7 @@ int main() {
 
 
 
-/* push a value onto the Stack */
+/* push a value onto the stack */
 void push(double f) {
     if (sp < MAXVAL) {
         val[sp] = f;
@@ -165,7 +182,6 @@ void swapTopTwoElements(void) {
     if (stackNotemptyAt(1)) { /* At least to elems in the stack */
         int a = val[sp - 1];
         int b = val[sp - 2];
-
         val[sp - 2] = a;
         val[sp - 1] = b;
         printf("\tSwapped top two elements of stack\n");
@@ -198,14 +214,23 @@ int getop(char s[]) {
      * and are handled further down.
      */
     if (!isdigit(c) && c != '.' && c != '-') {
-        /* At this point, c could be:
-         * (1) operand
-         * (2) side effect symbol
-         * (3) garbage
-         *
-         * In any case, main() will handle it
-         */
-        return c;
+        if (c >= 'a' && c <= 'z') {
+            /* a-z get pushed onto the stack to be used as variables */
+            return VARIABLE;
+        } else if (c == '$') {
+            /* Variables are called by prepending the name with a $ */
+            c = getch();
+            if (c >= 'a' && c <= 'z') { /* check that it is a valid variable name */
+                s[0] = c;
+                return '$';
+            } else {
+                return c; /* Should return something garbage or a specific 'bad variable' signal */
+            }
+
+        } else {
+            /* It's something else */
+            return c;
+        }
     }
 
     i = 0;
@@ -232,7 +257,7 @@ int getop(char s[]) {
         /* if a non-digit, non-decimal point was added to the string
          * in the collect integer part,
          * this is supposed to be a suctraction operand. So we put the charcter
-         * back into the buffer and just return the subtracion sign as we would
+         * back into the buffer and just return the subtraction sign as we would
          * any other operand.
          */
         ungetch(c);
