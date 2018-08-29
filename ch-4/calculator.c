@@ -12,17 +12,17 @@
 /* Read input */
 int getop(char []);
 
-/* Handle queue */
+/* Handle Stack */
 void push(double);
 double pop(void);
-int queueNotEmpty(int i);
+int stackNotemptyAt(int i);
 void topElement(void);
 void duplicateTopElement(void);
 void swapTopTwoElements(void);
-void clearQueue(void);
+void clearStack(void);
 
-double val[MAXVAL]; /* Queue */
-int sp = 0;         /* Current queue index */
+double val[MAXVAL]; /* Stack */
+int sp = 0;         /* Current Stack index */
 
 /* Handle buffer */
 int getch(void);
@@ -37,7 +37,7 @@ int main() {
     double op1, op2, poppedValue;
     char s[MAXOP];
 
-    /* Initialize queue with null values */
+    /* Initialize Stack with null values */
     int i;
     for (i = 0; i < MAXVAL; ++i) {
         val[i] = '\0';
@@ -91,7 +91,7 @@ int main() {
                 swapTopTwoElements();
                 break;
             case 'C':
-                clearQueue();
+                clearStack();
                 break;
             case '\n':
                 poppedValue = pop();
@@ -114,17 +114,17 @@ int main() {
 
 
 
-/* push a value onto the queue */
+/* push a value onto the Stack */
 void push(double f) {
     if (sp < MAXVAL) {
         val[sp] = f;
         ++sp;
     } else {
-        printf("\tERROR: queue full, can't push %g\n", f);
+        printf("\tERROR: Stack full, can't push %g\n", f);
     }
 }
 
-/* Pop a value from the queue */
+/* Pop a value from the stack */
 double pop(void) {
     if (sp > 0) {
         --sp;
@@ -132,54 +132,55 @@ double pop(void) {
         val[sp] = '\0';
         return poppedValue;
     } else {
-        printf("\tERROR: queue empty\n");
+        printf("\tStack empty\n");
         return '~';
     }
 }
 
-/* Check if queue is NOT empty at index i */
-int queueNotEmpty(int i) {
+/* Check if stack is NOT empty at index i */
+int stackNotemptyAt(int i) {
     return (val[i] != '\0') ? 1 : 0;
 }
 
 void topElement(void) {
-    double topElementOfQueue = val[sp - 1];
-    if (topElementOfQueue == '\0') {
-        printf("\tTop Element of Queue: null\n");
+    double topElementOfStack = val[sp - 1];
+    if (topElementOfStack == '\0') {
+        printf("\tTop element of stack: null\n");
     } else {
-        printf("\tTop Element of Queue: %.8g\n", topElementOfQueue);
+        printf("\tTop element of stack: %.8g\n", topElementOfStack);
     }
 }
 
 void duplicateTopElement(void) {
-    if (queueNotEmpty(0)) { /* At least one elem in the queue */
+    if (stackNotemptyAt(0)) { /* At least one elem in the stack */
         val[sp] = val[sp - 1];
         printf("\tDuplicated %.8g\n", val[sp]);
         ++sp;
     } else {
-        printf("\tERROR: failed to duplicate, queue empty\n");
+        printf("\tERROR: failed to duplicate\n");
     }
 }
 
 void swapTopTwoElements(void) {
-    if (queueNotEmpty(1)) { /* At least to elems in the queue */
+    if (stackNotemptyAt(1)) { /* At least to elems in the stack */
         int a = val[sp - 1];
         int b = val[sp - 2];
 
         val[sp - 2] = a;
         val[sp - 1] = b;
+        printf("\tSwapped top two elements of stack\n");
     } else {
-        printf("\tERROR: failed to swap, queue empty\n");
+        printf("\tERROR: failed to swap\n");
     }
 }
 
-void clearQueue(void) {
+void clearStack(void) {
     int i;
     for (i = 0; i < MAXVAL; ++i) {
         val[i] = '\0';
     }
     sp = 0;
-    printf("\tQueue cleared\n");
+    printf("\tStack cleared\n");
 }
 
 /* Get next operator or numeric operand */
