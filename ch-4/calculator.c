@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 #define MAXOP 100
 #define MAXVAL 100
@@ -45,25 +46,21 @@ int main() {
 
     while((type = getop(s)) != EOF) {
         switch (type) {
-            case NUMBER:
+            case NUMBER: /* Push number onto stack */
                 push(atof(s));
                 break;
-            case '+':
-                op2 = pop();
-                op1 = pop();
-                push(op1 + op2);
+            case '+': /* Addition */
+                push(pop() + pop());
                 break;
-            case '*':
-                op2 = pop();
-                op1 = pop();
-                push(op1 * op2);
+            case '*': /* Multiplication */
+                push(pop() * pop());
                 break;
-            case '-':
+            case '-': /* Subtraction */
                 op2 = pop();
                 op1 = pop();
                 push(op1 - op2);
                 break;
-            case '/':
+            case '/': /* Division */
                 op2 = pop();
                 op1 = pop();
                 if (op2 != 0.0) {
@@ -72,7 +69,7 @@ int main() {
                     printf("\tERROR: zero divisor\n");
                 }
                 break;
-            case '%':
+            case '%': /* Modulo */
                 op2 = pop();
                 op1 = pop();
                 if (op2 != 0.0) {
@@ -81,30 +78,33 @@ int main() {
                     printf("\tERROR: zero divisor\n");
                 }
                 break;
-            case 'T':
+            case '^': /* Print top element of stack */
                 topElement();
                 break;
-            case 'D':
+            case '>': /* Duplicate top element of stack */
                 duplicateTopElement();
                 break;
-            case 'S':
+            case '<': /* Swap top two elements of stack */
                 swapTopTwoElements();
                 break;
-            case 'C':
+            case '!': /* Clear stack */
                 clearStack();
                 break;
-            case '\n':
-                poppedValue = pop();
-                if (poppedValue == '~') {
-                    printf("\tReturn: null\n");
-                } else {
-                    printf("\tReturn: %.8g\n", poppedValue);
-                }
+            case 'S': /* Sin */
+                push(sin(pop()));
                 break;
-            case '~':
-                /* no operation */
+            case 'E': /* Exponential function, e to the x */
+                push(exp(pop()));
                 break;
-            default:
+            case 'P': /* Power */
+                op2 = pop();
+                op1 = pop();
+                push(pow(op1, op2));
+                break;
+            case '\n': /* End statement, pop & print top value of stack */
+                printf("\tReturn: %0.8g\n", pop());
+                break;
+            default: /* Error handling */
                 printf("\tERROR: unknown command %s\n", s);
                 break;
         }
@@ -128,12 +128,12 @@ void push(double f) {
 double pop(void) {
     if (sp > 0) {
         --sp;
-        int poppedValue = val[sp];
+        double poppedValue = val[sp];
         val[sp] = '\0';
         return poppedValue;
     } else {
         printf("\tStack empty\n");
-        return '~';
+        return '\0';
     }
 }
 
@@ -193,11 +193,6 @@ int getop(char s[]) {
 
     s[1] = '\0'; /* At this point, s looks like [<operator/operand>, '\0'] */
 
-    /* Return any character that is not a number, negative sign or decimal point */
-    if (!isdigit(c) && c != '.' && c != '-') {
-        return c;
-    }
-
     /* Check non-digit charcters
      * Dot and minus are sepcial cases
      * and are handled further down.
@@ -233,8 +228,9 @@ int getop(char s[]) {
             ;
     }
 
-    if (s[0] == '-' && !isdigit(s[1])) {
-        /* if a non-digit was added to the string in the collect integer part,
+    if (s[0] == '-' && !isdigit(s[1]) && s[1] != '.') {
+        /* if a non-digit, non-decimal point was added to the string
+         * in the collect integer part,
          * this is supposed to be a suctraction operand. So we put the charcter
          * back into the buffer and just return the subtracion sign as we would
          * any other operand.
