@@ -35,7 +35,7 @@ int ungetch2(char); /* Assuming only one character of pushback */
 int ungets(char s[]);   /* Put an entire string back into the input buffer */
 
 char buf[BUFSIZE];  /* The buffer itself */
-int bufp = 0;       /* Current buffer index */
+int bufp = 0;       /* Number of values in input buffer */
 char buf2 = '\0';   /* Buffer that can only hold one character of pushback */
 int bufUsed = 0;    /* Switch to indicate whether or not single-character buffer is in use */
 
