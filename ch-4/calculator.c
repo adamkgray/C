@@ -16,25 +16,25 @@
 int getop(char []);
 
 /* Handle Stack */
-void push(double);
-double pop(void);
-int stackNotemptyAt(int i);
-void topElement(void);
-void duplicateTopElement(void);
-void swapTopTwoElements(void);
-void clearStack(void);
+void push(double);              /* Push value onto stack */
+double pop(void);               /* Pop value from stack */
+int stackNotemptyAt(int i);     /* T/F for presence of value at index in stack */
+void topElement(void);          /* Topmost element of stack */
+void duplicateTopElement(void); /* Duplicate top element of stack */
+void swapTopTwoElements(void);  /* Swap top two elements of stack */
+void clearStack(void);          /* Clear the stack */
 
-double val[MAXVAL]; /* Stack */
+double val[MAXVAL]; /* The stack itself */
 int sp = 0;         /* Current Stack index */
 
 /* Handle buffer */
-int getch(void);
-int ungetch(int);
+int getch(void);    /* Get char from input buffer */
+int ungetch(int);   /* Put char back into input buffer */
 int getch2(void);   /* Assuming only one character of pushback */
 int ungetch2(char); /* Assuming only one character of pushback */
-int ungets(char s[]);
+int ungets(char s[]);   /* Put an entire string back into the input buffer */
 
-char buf[BUFSIZE];  /* Buffer */
+char buf[BUFSIZE];  /* The buffer itself */
 int bufp = 0;       /* Current buffer index */
 char buf2 = '\0';   /* Buffer that can only hold one character of pushback */
 int bufUsed = 0;    /* Switch to indicate whether or not single-character buffer is in use */
@@ -204,7 +204,7 @@ int getop(char s[]) {
     return NUMBER;
 }
 
-/* push a value onto the stack */
+/* Push a value onto the stack */
 void push(double f) {
     if (sp < MAXVAL) {
         val[sp++] = f;
@@ -308,6 +308,7 @@ int ungetch2(char c) {
     }
 }
 
+/* Put an entire string back into the input buffer */
 int ungets(char s[]) {
     int i = strlen(s) - 1;
     while(i >= 0 && ungetch(s[i--]))
