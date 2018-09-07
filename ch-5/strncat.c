@@ -1,22 +1,22 @@
-/* Write a function strncopy(s, t, n) which copies at most
+/* Write a function stringncat(s, t, n) which copies at most
  * n characters from the string s to the string t
  */
 
 #include <stdio.h>
 #include <string.h>
 
-char *strncopy(char *, char *, int, char *);
+char *stringncat(char *, char *, int, char *);
 
 int main() {
     char water[] = "water";
     char parks[] = "parks";
     char ncopy[strlen(water) + strlen(parks)];
-    strncopy(water, parks, 0, ncopy);
+    stringncat(water, parks, 0, ncopy);
     printf("%s\n", ncopy);
     return 0;
 }
 
-char *strncopy(char *string_one, char *string_two, int n, char *new_string) {
+char *stringncat(char *string_one, char *string_two, int n, char *new_string) {
     char *p_new_string = new_string;
 
     while ((*p_new_string = *string_one)) {
