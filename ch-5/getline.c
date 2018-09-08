@@ -10,19 +10,18 @@ int main() {
 
     /* copy keyboard input to test */
     while (get_line(buffer) != EOF) {
-        for (int i = 0; buffer[i] != '\n' && buffer[i] != EOF; ++i) {
-            printf("%c", buffer[i]);
-        }
-        printf("\n");
+        printf("%s", buffer);
     }
 
     return 0;
 }
 
-int get_line(char * buffer) {
+int get_line(char *buffer) {
     while ((*buffer = getchar()) != '\n' && *buffer != EOF) {
         ++buffer;
     }
+
+    *(buffer+1) = '\0';
 
     return *buffer;
 }
