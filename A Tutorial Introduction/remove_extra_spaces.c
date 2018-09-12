@@ -2,17 +2,16 @@
 #include <stdio.h>
 
 int main() {
-    int currentChar, previousChar;
+    int current_char, previous_char;
 
-    while ((currentChar = getchar()) != EOF) {
-        if (currentChar == ' ') {
-            if (previousChar != ' ') {
-                putchar(currentChar);
+    while ((current_char = getchar()) != EOF) {
+        if (current_char == ' ') {
+            if (previous_char != ' ') {
+                putchar(current_char);
             }
         } else {
-            putchar(currentChar);
+            putchar(current_char);
         }
-/* app                        art */
-        previousChar = currentChar;
+        previous_char = current_char;
     }
 }

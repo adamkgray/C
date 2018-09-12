@@ -4,25 +4,25 @@
 #define TRAILING 1
 #define NOT_TRAILING 0
 
-int readline(char line[], int maxLineLength);
+int read_line(char line[], int max_line_length);
 
 int main() {
     char line[MAX_LINE_LENGTH];
     int length;
 
-    while ((length = readline(line, MAX_LINE_LENGTH)) > 0)
+    while ((length = read_line(line, MAX_LINE_LENGTH)) > 0)
         ;
 
     return 0;
 }
 
-int readline(char line[], int maxLineLength) {
+int read_line(char line[], int max_line_length) {
     int c, i, previous, status, trailingStart;
 
     i = 0;
     status = NOT_TRAILING;
 
-    while ((c = getchar()) != EOF && c != '\n' && c < maxLineLength - 1) {
+    while ((c = getchar()) != EOF && c != '\n' && c < max_line_length - 1) {
 
         if (i > 0) { /* not the first character */
             if (c == ' ' || c == '\t') { /* this could be a trailing sequence */

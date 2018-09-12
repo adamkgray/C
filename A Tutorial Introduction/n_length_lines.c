@@ -4,14 +4,14 @@
 #define N 60
 
 /* getline is already a declared function in stdio.h and will throw an error */
-int getInputLine(char line[], int maxLineLength);
+int get_input_line(char line[], int max_line_length);
 
 int main() {
     int length;                    /* length of the current line */
     char line[MAX_LINE_LENGTH];    /* current input line */
 
-    /* getInputLine returns 0 when it reaches the end of the file */
-    while ((length = getInputLine(line, MAX_LINE_LENGTH)) > 0) {
+    /* get_input_line returns 0 when it reaches the end of the file */
+    while ((length = get_input_line(line, MAX_LINE_LENGTH)) > 0) {
         if (length > N) {
             printf("%s", line);
         }
@@ -21,14 +21,14 @@ int main() {
 }
 
 /* returns line length */
-int getInputLine(char line[], int maxLineLength) {
+int get_input_line(char line[], int max_line_length) {
     int i;  /* character count that gets incremented */
     int c;  /* holds characters from getchar() */
 
     i = 0;
 
     /* read input into line until newline, eof, or max line length */
-    while((c = getchar()) != EOF && c != '\n' && i < (maxLineLength - 1)) {
+    while((c = getchar()) != EOF && c != '\n' && i < (max_line_length - 1)) {
         line[i] = c;    /* store input in line */
         ++i;
     }

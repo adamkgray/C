@@ -4,13 +4,13 @@
 
 int len(char s[], int max);
 int reverse(char s[], char r[], int i);
-int readline(char s[], int max);
+int read_line(char s[], int max);
 
 int main() {
     char original[MAX_S];
-    int linelen;
+    int line_len;
 
-    while ((linelen = readline(original, MAX_S)) > 0) {
+    while ((line_len = read_line(original, MAX_S)) > 0) {
         /* get length of string */
         int length = len(original, MAX_S);
 
@@ -47,7 +47,7 @@ int reverse(char reversed[], char original[], int i) {
     return j;
 }
 
-int readline(char s[], int max) {
+int read_line(char s[], int max) {
     int c, i;
     i = 0;
 
