@@ -1,29 +1,29 @@
-/* Write a function htoi that converts a hexadecimal string to an integer */
+/* Write a function h_to_i that converts a hexadecimal string to an integer */
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 
-int htoi(const char s[]);
+int h_to_i(const char s[]);
 
 int main() {
-    printf("%d\n", htoi("0xFF"));
+    printf("%d\n", h_to_i("0xFF"));
 }
 
-int htoi(const char s[]) {
-    int i, j, c, n, sum, startIndex, power;
+int h_to_i(const char s[]) {
+    int i, j, c, n, sum, start_index, power;
 
     i = 0;                  /* Increment                        */
     j = strlen(s) - 1;      /* Decrement                        */
     power = 0;
     sum = 0;                /* Returned value                   */
-    startIndex = 0;         /* 0 or 2 depending on given format */
+    start_index = 0;         /* 0 or 2 depending on given format */
 
     /* Handle hexadecimal numbers that start with 0x or 0X */
     if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
-        startIndex = 2;
+        start_index = 2;
     }
 
-    for (i = startIndex; s[i] != '\0'; ++i) {
+    for (i = start_index; s[i] != '\0'; ++i) {
         c = s[j--];
 
         if (c >= 'A' && c <= 'F') {

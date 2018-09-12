@@ -1,19 +1,19 @@
-/* Write a function rightrot(x, n) that returns the value
+/* Write a function right_rotation(x, n) that returns the value
  * of the integer x rotate to the right by n bit positions
  */
 
 #include <stdio.h>
 #include <math.h>
 
-unsigned rightrot(unsigned x, unsigned n);
+unsigned right_rotation(unsigned x, unsigned n);
 
 int main() {
-    printf("%u\n", rightrot(297, 3));
+    printf("%u\n", right_rotation(297, 3));
 
     return 0;
 }
 
-unsigned rightrot(unsigned x, unsigned n) {
+unsigned right_rotation(unsigned x, unsigned n) {
     /* find max index of int, i.e. the left-most 1 */
     int exponent = 0;
     while ((int)(x / pow(2, exponent)) > 0) {

@@ -1,10 +1,10 @@
-/* Write a function setbits(x, p, n) that returns x with the n bits
+/* Write a function set_bits(x, p, n) that returns x with the n bits
  * that begin at position p set to the rightmost n bits of y,
  * leaving the other bits unchanged.
  */
 #include <stdio.h>
 
-unsigned setbits(unsigned x, unsigned p, unsigned n, unsigned y);
+unsigned set_bits(unsigned x, unsigned p, unsigned n, unsigned y);
 
 int main() {
     /*
@@ -15,10 +15,10 @@ int main() {
      *   answer:  101100, or 44
      */
 
-    printf("%u\n", setbits(12, 5, 2, 50));
+    printf("%u\n", set_bits(12, 5, 2, 50));
 }
 
-unsigned setbits(unsigned x, unsigned p, unsigned n, unsigned y) {
+unsigned set_bits(unsigned x, unsigned p, unsigned n, unsigned y) {
 
     unsigned mask = ~(~0 << n);
     /* 000011 */
