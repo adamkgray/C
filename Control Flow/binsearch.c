@@ -4,15 +4,15 @@
 
 #include <stdio.h>
 
-int binsearch(int x, int v[], int n);
+int b_search(int x, int v[], int n);
 
 int main() {
     int list[4] = {1, 2, 3, 6};
-    printf("%d\n", binsearch(5, list, 4));
+    printf("%d\n", b_search(5, list, 4));
     return 0;
 }
 
-int binsearch(int x, int v[], int n) {
+int b_search(int x, int v[], int n) {
     int low, high, mid;
 
     low = 0;

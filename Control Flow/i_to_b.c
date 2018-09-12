@@ -1,4 +1,4 @@
-/* Write a function itob(n, s, b) that convert the integer n
+/* Write a function i_to_b(n, s, b) that convert the integer n
  * into a base b character representation in the string s
  */
 
@@ -7,16 +7,16 @@
 #define MAXLEN 100
 
 int reverse(char reversed[], char original[], int i);
-int itob(int n, char s[], int b);
+int i_to_b(int n, char s[], int b);
 
 int main() {
     char s[MAXLEN];
-    itob(2147483647, s, 16);
+    i_to_b(2147483647, s, 16);
     printf("%s\n", s);
     return 0;
 }
 
-int itob(int n, char s[], int b) {
+int i_to_b(int n, char s[], int b) {
     int i = 0;
     int c;
     char t[MAXLEN];

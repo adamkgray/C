@@ -1,4 +1,4 @@
-/* Modify itoa function to correctly print the value of
+/* Modify i_to_a function to correctly print the value of
  * n equal to -2^(wordsize - 1)
  *
  * It didn't work previously because max negative int is -2147483648,
@@ -12,19 +12,19 @@
 #define OFF 0
 #define ON 1
 
-void itoa(int n, char s[]);
+void i_to_a(int n, char s[]);
 int reverse(char[], char[], int);
 
 int main() {
     int n = (0x7FFFFFFF * -1) - 1;
     char t[100];
-    itoa(n, t);
+    i_to_a(n, t);
     printf("%d => %s\n", n, t);
 
     return 0;
 }
 
-void itoa(int n, char t[]) {
+void i_to_a(int n, char t[]) {
     int i, sign, overflow;
     char s[100];
 

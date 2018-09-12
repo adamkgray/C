@@ -1,4 +1,4 @@
-/* Write a version of ita() that accepts three arguments
+/* Write a version of i_to_a() that accepts three arguments
  * instead of two. The third argument is a minimum field
  * width; the converted number must be padded on the left
  * if necessary to make it wide enough.
@@ -10,24 +10,24 @@
 #define OFF 0
 #define ON 1
 
-void itoa(int n, char s[], int b);
+void i_to_a(int n, char s[], int b);
 int reverse(char[], char[], int);
 
 int main() {
     char t[MAXLEN];
-    itoa(1, t, 4);
+    i_to_a(1, t, 4);
     printf("%s\n", t);
-    itoa(11, t, 4);
+    i_to_a(11, t, 4);
     printf("%s\n", t);
-    itoa(111, t, 4);
+    i_to_a(111, t, 4);
     printf("%s\n", t);
-    itoa(1111, t, 4);
+    i_to_a(1111, t, 4);
     printf("%s\n", t);
 
     return 0;
 }
 
-void itoa(int n, char t[], int b) {
+void i_to_a(int n, char t[], int b) {
     int i, j, sign, overflow;
     char s[MAXLEN];
     char q[MAXLEN];
