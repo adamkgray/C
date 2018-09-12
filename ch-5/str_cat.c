@@ -5,18 +5,18 @@
 #include <stdio.h>
 #include <string.h>
 
-char *stringcat(char *, char *, char *);
+char *str_cat(char *, char *, char *);
 
 int main() {
     char foo[] = "foo";
     char bar[] = "bar";
     char cat[strlen(foo) + strlen(bar)];
-    char *u = stringcat(foo, bar, cat);
+    char *u = str_cat(foo, bar, cat);
     printf("%s\n", u);
     return 0;
 }
 
-char *stringcat(char *string_one, char *string_two, char *new_string) {
+char *str_cat(char *string_one, char *string_two, char *new_string) {
     char *u = new_string;
 
     while ((*u = *string_one)) {

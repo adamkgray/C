@@ -1,4 +1,4 @@
-/* Extend atof() to handle scientific notation of the
+/* Extend a_to_f() to handle scientific notation of the
  * form: 123.45e-6, where a floating point number may be
  * followed by e or E and an optionally signed exponent
  */
@@ -7,17 +7,17 @@
 #include <ctype.h>
 #include <math.h>
 
-double atof(char s[]);
+double a_to_f(char s[]);
 
 int main() {
     char value[] = "123.456e-4";
-    printf("%s => %f\n", value, atof(value));
+    printf("%s => %f\n", value, a_to_f(value));
     return 0;
 }
 
-double atof(char s[]) {
-    double val, power, scienceVal;
-    int i, sign, scienceSign;
+double a_to_f(char s[]) {
+    double val, power, science_val;
+    int i, sign, science_sign;
 
     /* Skip all whitespace */
     for (i = 0; isspace(s[i]); ++i)
@@ -47,25 +47,25 @@ double atof(char s[]) {
         power *= 10.0;
     }
 
-    scienceVal = 1.0;
+    science_val = 1.0;
     /* Identify scientific notation */
     if (s[i] == 'e' || s[i] == 'E') {
         ++i;
-        scienceVal = 0.0;
+        science_val = 0.0;
     }
 
     /*Read sign of sceintific notation */
-    scienceSign = (s[i] == '-') ? -1 : 1;
+    science_sign = (s[i] == '-') ? -1 : 1;
     if (s[i] == '+' || s[i] == '-') {
         ++i;
     }
 
     /*Read the value of the scientific notation */
     for (; isdigit(s[i]); ++i) {
-        scienceVal = 10.0 * scienceVal + (s[i] - '0');
+        science_val = 10.0 * science_val + (s[i] - '0');
     }
 
-    scienceVal = pow(10, scienceVal * scienceSign);
+    science_val = pow(10, science_val * science_sign);
 
-    return sign * (val / power) * scienceVal;
+    return sign * (val / power) * science_val;
 }

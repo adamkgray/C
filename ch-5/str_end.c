@@ -1,17 +1,17 @@
-/* Write a function strend(s, t), which returns 1 if the string
+/* Write a function str_end(s, t), which returns 1 if the string
  * t occurs at the end of the string s, and 0 otherwise
  */
 
 #include <stdio.h>
 
-int strend(char *, char *);
+int str_end(char *, char *);
 
 int main() {
-    printf("%d\n", strend("abc", "bc"));
+    printf("%d\n", str_end("abc", "bc"));
     return 0;
 }
 
-int strend(char *s, char *t) {
+int str_end(char *s, char *t) {
     char *u = t;
 
     while (*s) {
