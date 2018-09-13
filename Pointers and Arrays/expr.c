@@ -81,6 +81,7 @@ void read_arg(char *arg, double *n, int *type) {
         /* It could either be an operator or  negative operand */
         if (strlen(arg) > 1) {
             /* check if all subsequent characters are digits */
+            valid = 1;
             for (p_arg = arg + 1; *p_arg != '\0'; ++p_arg) {
                 if (!isdigit(*p_arg)) {
                     valid = 0;
