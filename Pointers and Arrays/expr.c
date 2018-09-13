@@ -16,16 +16,16 @@ void read_arg(char *arg, double *n, int *type);
 static int exit_code = 0;
 
 int main(int argc, char *argv[]) {
-    int i, type;
-    double n, stack[argc], *p_stack;
-    p_stack = stack;
-
     /* Adjust argv if arguments were given, or just exit */
     if (argc > 1) {
         ++argv;
     } else {
         return 0;
     }
+
+    int i, type;
+    double n, stack[argc], *p_stack;
+    p_stack = stack;
 
     for (i = 1; exit_code == 0 && i < argc; ++i, ++argv) {
         read_arg(*argv, &n, &type);
