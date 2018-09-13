@@ -20,8 +20,15 @@ int main(int argc, char *argv[]) {
     double n, stack[argc], *p_stack;
     p_stack = stack;
 
-    for (i = 1; exit_code == 0 && i < argc; ++i) {
-        read_arg(argv[i], &n, &type);
+    /* Adjust argv if arguments were given, or just exit */
+    if (argc > 1) {
+        ++argv;
+    } else {
+        return 0;
+    }
+
+    for (i = 1; exit_code == 0 && i < argc; ++i, ++argv) {
+        read_arg(*argv, &n, &type);
         switch (type) {
             case NUMBER:
                 ++p_stack;
