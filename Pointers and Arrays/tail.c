@@ -14,10 +14,8 @@
 #include <ctype.h>
 #define MAX_INPUT 1000
 
-static char input_buffer[MAX_INPUT];
-
 void shift_lines(char *lines[], int *n, char *input_buffer, char *new_line);
-int read_line(char *input_buffer);
+int read_line(char *input_buffer, int *i);
 int parse_args(int *argc, char *argv[], int *n);
 
 int main(int argc, char *argv[]) {
@@ -30,7 +28,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    char *lines[n], **p_lines;
+    char *lines[n], **p_lines, input_buffer[MAX_INPUT];
 
     /* Initialize lines with empty strings */
     char empty_line[] = "\0";
@@ -40,7 +38,7 @@ int main(int argc, char *argv[]) {
 
     /* Read input */
     char *new_line;
-    while (read_line(input_buffer) > 0) {
+    while (read_line(input_buffer, &i) > 0) {
         shift_lines(lines, &n, input_buffer, new_line);
     }
 
@@ -98,8 +96,10 @@ void shift_lines(char *lines[], int *n, char *input_buffer, char *new_line) {
     *lines = new_line;
 }
 
-int read_line(char *input_buffer) {
-    for(; (*input_buffer = getchar()) != '\n' && *input_buffer != EOF; ++input_buffer)
+int read_line(char *input_buffer, int *i) {
+    for(*i = 0;
+        *i < MAX_INPUT && (*input_buffer = getchar()) != '\n' && *input_buffer != EOF;
+        ++*i, ++input_buffer)
             ;
     return *input_buffer;
 }
