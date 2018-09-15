@@ -60,7 +60,7 @@ int parse_args(int *argc, char *argv[], int *n) {
         return 1;
     } else {
         ++argv;
-        if (strlen(*argv) == 2 && (*argv)[0] == '-' && (*argv)[1] == 'n') {
+        if (strlen(*argv) == 2 && strcmp(*argv, "-n") == 0) {
             ++argv;
             char *p_arg = *argv;
             /* Check that all characters in the second arg are digits */
