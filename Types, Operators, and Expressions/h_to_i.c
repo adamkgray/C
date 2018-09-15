@@ -16,7 +16,7 @@ int h_to_i(const char s[]) {
     j = strlen(s) - 1;      /* Decrement                        */
     power = 0;
     sum = 0;                /* Returned value                   */
-    start_index = 0;         /* 0 or 2 depending on given format */
+    start_index = 0;        /* 0 or 2 depending on given format */
 
     /* Handle hexadecimal numbers that start with 0x or 0X */
     if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {

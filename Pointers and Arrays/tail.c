@@ -1,11 +1,7 @@
 /* Write a program tail which prints the last n lines
  * of input. By default, n is 10, but it can be changed
  * by an optional argument, so that `tail -n` prints the
- * last n lines. The program should behave rationally
- * no matter how unreasonable the input or the value of n.
- * Write the program so that it makes best use of available
- * storage; lines should not be stored in a two-dimensional
- * array of fixed size.
+ * last n lines.
  */
 
 #include <stdio.h>
